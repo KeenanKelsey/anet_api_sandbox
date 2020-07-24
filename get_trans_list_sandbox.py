@@ -5,13 +5,13 @@ import importlib
 
 from authorizenet import apicontractsv1
 from authorizenet.apicontrollers import getTransactionListController
-constants = importlib.import_module('constants')
+CONSTANTS = importlib.import_module('constants')
 
 def get_transaction_list():
     """get transaction list for a specific batch"""
     merchantAuth = apicontractsv1.merchantAuthenticationType()
-    merchantAuth.name = constants.apiLoginId
-    merchantAuth.transactionKey = constants.transactionKey
+    merchantAuth.name = CONSTANTS.apiLoginId
+    merchantAuth.transactionKey = CONSTANTS.transactionKey
 
     # set sorting parameters
     sorting = apicontractsv1.TransactionListSorting()
@@ -21,7 +21,7 @@ def get_transaction_list():
     # set paging and offset parameters
     paging = apicontractsv1.Paging()
     # Paging limit can be up to 1000 for this request
-    paging.limit = 700
+    paging.limit = 1000
     paging.offset = 1
 
     transactionListRequest = apicontractsv1.getTransactionListRequest()
