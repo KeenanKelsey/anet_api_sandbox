@@ -9,10 +9,10 @@ import random
 from faker import Faker # for fake gANenerated information
 fake = Faker()
 from authorizenet import apicontractsv1
-from authorizenet.apicontrollers import createTransactionController, getTransactionListController
+from authorizenet.apicontrollers import *
 
 CONSTANTS = importlib.import_module('constants')
-
+cim_create = []
 
 def charge_credit_card(amount,save_to_cim=False):
     """
@@ -71,22 +71,22 @@ def charge_credit_card(amount,save_to_cim=False):
     # setup individual line items
     random_num = random.randint(2000,5000)
     line_item_1 = apicontractsv1.lineItemType()
-    line_item_1.itemId = random.choice(random_num)
+    line_item_1.itemId = str(random.randint(1,9))
     line_item_1.name = "first"
     line_item_1.description = fake.catch_phrase()
-    line_item_1.quantity = random.randint(1,9)
+    line_item_1.quantity = str(random.randint(1,9))
     line_item_1.unitPrice = "12.95"
     line_item_2 = apicontractsv1.lineItemType()
-    line_item_2.itemId = random.choice(random_num)
+    line_item_2.itemId = str(random.randint(1,9))
     line_item_2.name = "second"
     line_item_2.description = fake.catch_phrase()
-    line_item_2.quantity = random.randint(1,9)
+    line_item_2.quantity = str(random.randint(1,9))
     line_item_2.unitPrice = "7.95"
     line_item_3 = apicontractsv1.lineItemType()
-    line_item_3.itemId = random.choice(random_num)
+    line_item_3.itemId = str(random.randint(1,9))
     line_item_3.name = "third"
     line_item_3.description = fake.catch_phrase()
-    line_item_3.quantity = random.randint(1,9)
+    line_item_3.quantity = str(random.randint(1,9))
     line_item_3.unitPrice = "100.00"
 
 
@@ -128,6 +128,10 @@ def charge_credit_card(amount,save_to_cim=False):
                 print(
                     'Successfully created transaction with Transaction ID: %s'
                     % response.transactionResponse.transId)
+                if save_to_cim:
+                    # create CIM profile
+                    cim_create.append(response.transactionResponse.transId)
+                    create_customer_profile_from_transaction(str(cim_create[0]))
                 print('Transaction Response Code: %s' %
                       response.transactionResponse.responseCode)
                 print('Message Code: %s' %
@@ -160,11 +164,6 @@ def charge_credit_card(amount,save_to_cim=False):
         print('Null Response.')
 
     return response
-
-
-if (os.path.basename(__file__) == os.path.basename(sys.argv[0])):
-    for _ in range(100):
-        charge_credit_card(CONSTANTS.amount)
 
 
 def get_transaction_list():
@@ -260,3 +259,7 @@ def create_customer_profile_from_transaction(transactionId):
         print("Failed to create customer payment profile from transaction %s" % response.messages.message[0]['text'].text)
 
     return response
+
+if (os.path.basename(__file__) == os.path.basename(sys.argv[0])):
+        charge_credit_card(CONSTANTS.amount)
+        
