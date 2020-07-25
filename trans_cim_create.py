@@ -7,9 +7,22 @@ import os
 import sys
 import random
 from faker import Faker # for fake gANenerated information
-fake = Faker()
+
 from authorizenet import apicontractsv1
 from authorizenet.apicontrollers import *
+import logging
+
+# log handling
+logger = logging.getLogger('authorizenet.sdk')
+handler = logging.FileHandler('anetSdk.log')  
+formatter = logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
+logger.debug('Logger set up for Authorizenet Python SDK complete')
+
+# creating fake data
+fake = Faker()
 
 CONSTANTS = importlib.import_module('constants')
 cim_create = []
