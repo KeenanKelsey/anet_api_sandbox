@@ -197,5 +197,46 @@ def create_customer_profile_from_transaction(transactionId):
 
     return response
 
+def get_customer_profile(customerProfileId):
+    merchantAuth = apicontractsv1.merchantAuthenticationType()
+    merchantAuth.name = CONSTANTS.apiLoginId
+    merchantAuth.transactionKey = CONSTANTS.transactionKey
+ 
+    getCustomerProfile = apicontractsv1.getCustomerProfileRequest()
+    getCustomerProfile.merchantAuthentication = merchantAuth
+    getCustomerProfile.customerProfileId = customerProfileId
+    controller = getCustomerProfileController(getCustomerProfile)
+    controller.execute()
+ 
+    response = controller.getresponse()
+ 
+    if (response.messages.resultCode=="Ok"):
+        print(f"Successfully retrieved a customer with profile id {getCustomerProfile.customerProfileId} and customer id {response.profile.merchantCustomerId}")
+        if hasattr(response, 'profile') == True:
+            if hasattr(response.profile, 'paymentProfiles') == True:
+                for paymentProfile in response.profile.paymentProfiles:
+                     print ("paymentProfile in get_customerprofile is:" %paymentProfile)
+                     print ("Payment Profile ID %s" % str(paymentProfile.customerPaymentProfileId))
+                if hasattr(response.profile, 'shipToList') == True:
+                    for ship in response.profile.shipToList:
+                        print ("Shipping Details:")
+                        print ("First Name %s" % ship.firstName)
+                        print ("Last Name %s" % ship.lastName)
+                        print ("Address %s" % ship.address)                     
+                        print ("Customer Address ID %s" % ship.customerAddressId)
+        if hasattr(response, 'subscriptionIds') == True:
+            if hasattr(response.subscriptionIds, 'subscriptionId') == True:
+                print ("list of subscriptionid:")
+                for subscriptionid in (response.subscriptionIds.subscriptionId):
+                    print (subscriptionid)
+    else:
+        print ("response code: %s" % response.messages.resultCode)
+        print ("Failed to get customer profile information with id %s" % getCustomerProfile.customerProfileId)
+ 
+    return response
+   
+
 if (os.path.basename(__file__) == os.path.basename(sys.argv[0])):
-        charge_credit_card(CONSTANTS.amount)
+        charge_credit_card(CONSTANTS.amount,True)
+        print(f"Here is the information about CIM profile: {getCustomerProfile.customerProfileId}:")
+        get_customer_profile(str(getCustomerProfile.customerProfileId))

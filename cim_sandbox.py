@@ -2,7 +2,7 @@ import os, sys
 import importlib
 from faker import Faker
 from authorizenet import apicontractsv1
-from authorizenet.apicontrollers import *
+# from authorizenet.apicontrollers import *
 
 fake = Faker()
 constants = importlib.import_module('constants')
@@ -13,7 +13,7 @@ def create_customer_profile_from_transaction(transactionId):
     merchantAuth.transactionKey = constants.transactionKey
 
     profile = apicontractsv1.customerProfileBaseType()
-    profile.merchantCustomerId = "12332"
+    profile.merchantCustomerId = fake.ean8()
     profile.description = fake.bs()
     profile.email = fake.email()
 

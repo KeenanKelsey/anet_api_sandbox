@@ -28,7 +28,7 @@ def charge_credit_card(amount):
 
     # Create the payment data for a credit card
     creditCard = apicontractsv1.creditCardType()
-    card_types = ['visa','discover','mastercard']
+    card_types = ['visa','discover','mastercard', 'jcb']
     creditCard.cardNumber = fake.credit_card_number(card_type=random.choice(card_types))
     creditCard.expirationDate = fake.credit_card_expire()
     creditCard.cardCode = fake.credit_card_security_code()
