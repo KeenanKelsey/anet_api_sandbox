@@ -251,5 +251,5 @@ def get_customer_profile(customerProfileId):
 
 if (os.path.basename(__file__) == os.path.basename(sys.argv[0])):
         charge_credit_card(CONSTANTS.amount,True)
-        print(f"Here is the information about CIM profile: {getCustomerProfile.customerProfileId}:")
-        get_customer_profile(str(getCustomerProfile.customerProfileId))
+        # print(f"Here is the information about CIM profile: {getCustomerProfile.customerProfileId}:")
+        # get_customer_profile(str(getCustomerProfile.customerProfileId))
