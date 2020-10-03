@@ -167,4 +167,5 @@ if (os.path.basename(__file__) == os.path.basename(sys.argv[0])):
 
 # if __name__ == "__main__":
 #     for _ in range(100):
+#         charge_credit_card(CONSTANTS.amount)
         
