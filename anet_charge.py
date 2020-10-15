@@ -36,7 +36,7 @@ def charge_credit_card(amount):
     # Add the payment data to a paymentType object
     payment = apicontractsv1.paymentType()
     payment.creditCard = creditCard
-    payment.
+    
     
 
     # Create order information
@@ -107,6 +107,7 @@ def charge_credit_card(amount):
     transactionrequest.customer = customerData
     transactionrequest.transactionSettings = settings
     transactionrequest.lineItems = line_items
+    
 
     # Assemble the complete transaction request
     createtransactionrequest = apicontractsv1.createTransactionRequest()
