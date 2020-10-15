@@ -27,7 +27,7 @@ def get_transaction_list():
     transactionListRequest = apicontractsv1.getTransactionListRequest()
     transactionListRequest.merchantAuthentication = merchantAuth
     transactionListRequest.refId = "Sample"
-    transactionListRequest.batchId = "10971590"
+    transactionListRequest.batchId = "10796267"
     transactionListRequest.sorting = sorting
     transactionListRequest.paging = paging
 
